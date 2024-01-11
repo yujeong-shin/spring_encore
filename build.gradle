@@ -1,0 +1,35 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.11'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.encore'
+//빌드된 jar파일의 버전명
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '11'
+}
+
+repositories {
+	//의존성(라이브러리)을 가져오는 대상 repository (저장소)
+	//내부망에 구축되어 있는 프로젝트의 경우 nexus와 같은 라이브러리를 사용하여 내부망 repository 사용
+	//maven { url "http://nexus.XXXXX.com:8081/nexus/content/groups/public/" }
+	mavenCentral()
+}
+
+//starter 종속성은 별도의 버전관리 필요없음. (알아서 호환성을 맞춰줌)
+dependencies {
+	//타임리프 관련한 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	//스프링 mvc(model, view, controller) 구조의 web서비스 관련 의존성
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	//테스트를 위한 의존성
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	//테스트 라이브러리로 주로 JUnit을 사용
+	useJUnitPlatform()
+}

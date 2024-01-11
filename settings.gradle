@@ -1,0 +1,2 @@
+rootProject.name = 'basic' //artifact
+//한 프로젝트 안에서 소 프로젝트로 나눠서 빌드할 때 사용한다.
