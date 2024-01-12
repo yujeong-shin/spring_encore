@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello-form-screen</title>
+</head>
+<body>
+<!-- 제출을 누른 순간 action에 있는 url로 post 요청-->
+    <form action="http://localhost:8080/hello/form-post-handle2" method="POST" enctype="application/x-www-form-urlencoded">
+        <h2>Form 태그로 x-www-urlencoded 데이터 처리</h2>
+        <p>
+            <label>이름</label>
+            <input type="text" name="name" maxlength="10" size="15">
+        </p>
+
+        <p>
+            <label>email</label>
+            <input type="text" name="email" maxlength="15" size="20">
+        </p>
+
+        <p>
+            <label>password</label>
+            <input type="password" name="password" maxlength="15" size="20">
+        </p>
+
+        <input type="submit" value="제출">
+    </form>
+</body>
+</html>
