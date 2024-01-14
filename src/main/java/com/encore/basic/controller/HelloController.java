@@ -17,7 +17,7 @@ public class HelloController {
     //ReponseBody가 없고, return타입이 String이면 templates밑에 html파일 리턴
     //data만을 return할 때는 @ResponseBody를 붙인다.
     //@ResponseBody가 붙었을 때 반환 타입이 객체라면, JSON 형식으로 반환한다.
-//    @RequestMapping(value = "string", method = RequestMethod.GET) //@GetMapping("string")와 같은 의미
+    //@RequestMapping(value = "string", method = RequestMethod.GET) //@GetMapping("string")와 같은 의미
     @GetMapping("string")
     @ResponseBody
     public String helloString(){
@@ -40,9 +40,8 @@ public class HelloController {
         return "screen";
     }
 
-    //1)parameter방식 : ?키1=밸류1&키2=밸류2
-    //2)pathVariable방식 : localhost:8080/hello/screen-model/hongildong  ex) localhost:8080/member/hongildong
-    // -> 서버의 특정 자원의 값을 가져올 때 사용. 요즘은 2번 방식이 더 많다.
+    // 1)parameter방식 : 주소/?키1=밸류1&키2=밸류2
+    // ex) localhost:8080/hello/screen-model?name=hongildong
     @GetMapping("screen-model-param")
     //@RequestParam(파라미터 호출방식) ==> localhost:8080/member-model-param?name=hongildong 방식으로 호출
     public String helloScreenModelParam(@RequestParam(value = "name")String inputName, Model model){
@@ -52,8 +51,10 @@ public class HelloController {
         return "screen";
     }
 
-    //pathVariable방식은 url을 통해 자원의 구조를 명확하게 표현할 수 있어,
-    // 좀 더 RestFul API 디자인에 적합하다.
+    // 2)pathVariable방식 : 주소/값
+    // localhost:8080/hello/screen-model/hongildong
+    // -> 서버의 특정 자원의 값을 가져올 때 사용. 요즘은 2번 방식이 더 많다.
+    //pathVariable방식은 url을 통해 자원의 구조를 명확하게 표현할 수 있어, 좀 더 RestFul API 디자인에 적합하다.
     @GetMapping("screen-model-path/{id}")
     //localhost:8080/member-model-path/1 방식으로 호출
     public String helloScreenModelPath(@PathVariable int id, Model model){
