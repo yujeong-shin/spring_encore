@@ -3,18 +3,28 @@ package com.encore.basic.service;
 import com.encore.basic.domain.Member;
 import com.encore.basic.domain.MemberRequestDto;
 import com.encore.basic.domain.MemberResponseDto;
+import com.encore.basic.repository.MemberRepository;
 import com.encore.basic.repository.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service // 싱글톤 컴포넌트로 생성 -> 내부 @Component를 통해 "스프링 빈"으로 등록
+// 스프링 빈이랑, 스프링이 생성하고 관리하는 객체를 의미
+// 제어의 역전(Inversion of Control)
+// IoC 컨테이너가 스프링 빈을 관리한다.(빈 생성, 의존성 주입)
 public class MemberService {
     private final MemoryMemberRepository memoryMemberRepository;
-    static int total_id;
-    public MemberService(){
-        memoryMemberRepository = new MemoryMemberRepository();
+    @Autowired
+    public MemberService(MemoryMemberRepository memoryMemberRepository) {
+        this.memoryMemberRepository = memoryMemberRepository;
     }
+
+    static int total_id;
     public List<MemberResponseDto> members(){
         List<Member> members = memoryMemberRepository.members();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
