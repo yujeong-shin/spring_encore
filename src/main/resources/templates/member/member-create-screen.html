@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+</head>
+<body>
+<form action="http://localhost:8080/members/create" method="POST">
+    <p>
+        <label>이름</label>
+        <input type="text" name="name" maxlength="10" size="15">
+    </p>
+
+    <p>
+        <label>email</label>
+        <input type="text" name="email" maxlength="15" size="20">
+    </p>
+
+    <p>
+        <label>password</label>
+        <input type="password" name="password" maxlength="15" size="20">
+    </p>
+
+    <input type="submit" value="제출">
+</form>
+</body>
+</html>

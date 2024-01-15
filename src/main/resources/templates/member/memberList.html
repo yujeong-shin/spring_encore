@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!-- 템플릿 엔진(JSP, Thymlear)을 사용-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 목록 조회</title>
+</head>
+<body>
+<!--hello <span th:text="${myData}"></span> screen-->
+<table>
+    <tr>
+        <th>이름</th>
+        <th>이메일</th>
+        <th>비밀번호</th>
+    </tr>
+    <!--반복문으로 객체 개수만큼 row 생성-->
+    <tr th:each = "member : ${members}">
+        <td th:text="${member.name}"></td>
+        <td th:text="${member.email}"></td>
+        <td th:text="${member.password}"></td>
+    </tr>
+</table>
+
+</body>
+</html>

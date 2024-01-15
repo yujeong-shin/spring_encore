@@ -21,6 +21,11 @@ repositories {
 
 //starter 종속성은 별도의 버전관리 필요없음. (알아서 호환성을 맞춰줌)
 dependencies {
+	//implementation : 컴파일 시점과 런타임 시점 모두에 필요
+	//compileOnly : 컴파일 시에만 필요, lombok 어노테이션들.
+	//runtimeOnly : 런타임 시에만 필요, DB관련 의존성과 로그 의존성, 연결 이벤트가 발생할 때 가져오면 됨.
+	//코드 최적화를 위해 사용한다.
+
 	//타임리프 관련한 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	//스프링 mvc(model, view, controller) 구조의 web서비스 관련 의존성
