@@ -44,6 +44,6 @@ public class MemberController {
     // Home 생성
     @GetMapping("/")
     public String home(){
-        return "member/home";
+        return "member/header";
     }
 }

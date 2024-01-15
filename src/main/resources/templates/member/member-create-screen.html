@@ -1,7 +1,10 @@
 <!DOCTYPE html>
+<!-- 템플릿 엔진(JSP, Thymlear)을 사용-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <div th:replace="member/header :: headerFragment"></div>
     <title>회원가입</title>
 </head>
 <body>
