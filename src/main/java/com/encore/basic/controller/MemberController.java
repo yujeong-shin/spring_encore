@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller // 내부 @Component를 통해 "스프링 빈"으로 등록
 //@RequiredArgsConstructor
@@ -61,5 +58,11 @@ public class MemberController {
     @GetMapping("/")
     public String home(){
         return "member/header";
+    }
+
+    @GetMapping("member/find")
+    public String findMember(@RequestParam("id") int id, Model model){
+        model.addAttribute("member", memberService.findById(id));
+        return "member/member-find-screen";
     }
 }

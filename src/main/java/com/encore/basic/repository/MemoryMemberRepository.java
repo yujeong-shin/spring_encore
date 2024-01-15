@@ -22,4 +22,14 @@ public class MemoryMemberRepository implements MemberRepository{
     public void memberCreate(Member member){
         memberDB.add(member);
     }
+
+    @Override
+    public Member findById(int id) {
+        for(Member member : memberDB){
+            if(member.getId() == id){
+                return member;
+            }
+        }
+        return null;
+    }
 }

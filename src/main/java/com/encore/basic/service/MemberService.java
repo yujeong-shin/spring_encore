@@ -42,4 +42,12 @@ public class MemberService {
         Member member = new Member(total_id, memberRequestDto.getName(), memberRequestDto.getEmail(), memberRequestDto.getPassword(), now);
         memoryMemberRepository.memberCreate(member);
     }
+
+    public MemberResponseDto findById(int id){
+        //Member 객체를 MemberRequestDto로 변환
+        Member member = memoryMemberRepository.findById(id);
+        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getId(), member.getName(), member.getEmail(), member.getPassword());
+        return memberResponseDto;
+    }
+
 }

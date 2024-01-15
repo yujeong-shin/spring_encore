@@ -14,4 +14,9 @@ public class JdbcMemberRepository implements MemberRepository{
     public void memberCreate(Member member) {
 
     }
+
+    @Override
+    public Member findById(int id) {
+        return null;
+    }
 }
