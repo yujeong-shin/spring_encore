@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("members")
 public class MemberController {
     private final MemberService memberService;
     MemberController(){
@@ -20,7 +19,7 @@ public class MemberController {
     }
 
     //회원 목록 조회
-    @GetMapping()
+    @GetMapping("members")
     public String members(Model model){
         // memberResponseDtos 가져옴
         // 사용자는 Member 객체가 아닌 DTO 객체에 있는 정보만 필요함
@@ -29,16 +28,22 @@ public class MemberController {
     }
 
     //회원가입
-    @GetMapping("create")
+    @GetMapping("members/create")
     public String createMember(){
         return "member/member-create-screen";
     }
 
-    @PostMapping("create")
+    @PostMapping("members/create")
     @ResponseBody
     public String create(MemberRequestDto memberRequestDto){
         System.out.println(memberRequestDto);
         memberService.memberCreate(memberRequestDto);
         return "ok";
+    }
+
+    // Home 생성
+    @GetMapping("/")
+    public String home(){
+        return "member/home";
     }
 }
