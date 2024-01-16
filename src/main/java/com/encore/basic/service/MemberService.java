@@ -3,6 +3,7 @@ package com.encore.basic.service;
 import com.encore.basic.domain.Member;
 import com.encore.basic.domain.MemberRequestDto;
 import com.encore.basic.domain.MemberResponseDto;
+import com.encore.basic.repository.JdbcMemberRepository;
 import com.encore.basic.repository.MemberRepository;
 import com.encore.basic.repository.MemoryMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     @Autowired
-    public MemberService(MemoryMemberRepository memoryMemberRepository) {
-        this.memberRepository = memoryMemberRepository;
+    public MemberService(JdbcMemberRepository jdbcMemberRepository) {
+        this.memberRepository = jdbcMemberRepository;
     }
     public List<MemberResponseDto> findAll(){
         List<Member> members = memberRepository.findAll();
