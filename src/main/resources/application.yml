@@ -40,3 +40,18 @@ spring:
     url: jdbc:mariadb://localhost:3306/basic
     username: root
     password: 1234
+  jpa:
+    databases: mysql
+    # innoDB 엔진 사용 설정
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    # 스키마는 사전 생성 필요
+    # 테이블과 컬럼은 자동 생성해줌
+    generate-ddl: true
+    hibernate:
+      #create 옵션은 매번 table을 drop 후 생성
+      #update 옵션은 변경 사항만 alter를 적용
+      #validate는 실제 DB만의 차이만을 check
+      #실무에서는 update 또는 validate 사용
+      ddl-auto: create
+    #jpa가 자동으로 쿼리를 실행할 때, 쿼리가 console창에 보여지도록
+    show-sql: true
