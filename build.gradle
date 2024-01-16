@@ -32,6 +32,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	//테스트를 위한 의존성
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//DB 연결을 위한 의존성 : jdbc, mariadb 클라이언트
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
 
 	//lombok 추가
 	//Getter, Setter 및 로그관련 의존성

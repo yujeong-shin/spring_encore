@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @Controller // 내부 @Component를 통해 "스프링 빈"으로 등록
 //@RequiredArgsConstructor
 public class MemberController {
@@ -38,7 +40,7 @@ public class MemberController {
     public String members(Model model){
         // memberResponseDtos 가져옴
         // 사용자는 Member 객체가 아닌 DTO 객체에 있는 정보만 필요함
-        model.addAttribute("members", memberService.members());
+        model.addAttribute("members", memberService.findAll());
         return "member/memberList";
     }
 
@@ -51,7 +53,7 @@ public class MemberController {
     @PostMapping("members/create")
     public String create(MemberRequestDto memberRequestDto){
         System.out.println(memberRequestDto);
-        memberService.memberCreate(memberRequestDto);
+        memberService.createMember(memberRequestDto);
         return "redirect:/members"; //url 리다이렉트
     }
 
@@ -63,8 +65,13 @@ public class MemberController {
 
     @GetMapping("member/find")
     public String findMember(@RequestParam("id") int id, Model model){
-        MemberResponseDto memberResponseDto = memberService.findById(id);
-        model.addAttribute("member", memberResponseDto);
-        return "member/member-find-screen";
+        try {
+            // Unckecked Exception이기 때문에 예외 처리가 강제되지 않아 없어도 오류가 발생하지 않는다.
+            MemberResponseDto memberResponseDto = memberService.findById(id);
+            model.addAttribute("member", memberResponseDto);
+            return "member/member-find-screen";
+        } catch (NoSuchElementException e) {
+            return "404-error-page";
+        }
     }
 }

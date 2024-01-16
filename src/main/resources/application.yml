@@ -18,7 +18,7 @@
 #    hibernate:
 #      ddl-auto: update
 #
-#--- #?? ?? ?? ??? ??? ?
+#---
 #server:
 #  port: 8082
 #spring:
@@ -32,3 +32,11 @@
 #  jpa:
 #    hibernate:
 #      ddl-auto: update
+
+
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/basic
+    username: root
+    password: 1234
