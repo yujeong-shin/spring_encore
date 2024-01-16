@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +23,29 @@ public class JdbcMemberRepository implements MemberRepository{
 
     @Override
     public List<Member> findAll() {
-        return null;
+        List<Member> members = new ArrayList<>();
+        try{
+            Connection connection = dataSource.getConnection();
+            String sql = "select * from member";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("password");
+                LocalDateTime now = resultSet.getTimestamp("create_time").toLocalDateTime();
+
+                Member member = new Member(name, email, password);
+                member.setId(id);
+                member.setCreate_time(now);
+
+                members.add(member);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return members;
     }
 
     @Override
@@ -43,7 +68,31 @@ public class JdbcMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Optional<Member> findById(int id) {
-        return Optional.empty();
+    public Optional<Member> findById(int inputId) {
+        Member member = null;
+        try{
+            Connection connection = dataSource.getConnection();
+            String sql = "select * from member where id = ?";
+            // preparedStatement : ? 빠진 SQL
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            // ?값을 세팅
+            preparedStatement.setInt(1, inputId);
+            // 결과 가져오기
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            resultSet.next();
+            int id = resultSet.getInt("id");
+            String name = resultSet.getString("name");
+            String email = resultSet.getString("email");
+            String password = resultSet.getString("password");
+            LocalDateTime now = resultSet.getTimestamp("create_time").toLocalDateTime();
+
+            member = new Member(name, email, password);
+            member.setId(id);
+            member.setCreate_time(now);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return Optional.ofNullable(member);
     }
 }
