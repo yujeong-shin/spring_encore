@@ -18,18 +18,23 @@ import java.util.List;
 // 제어의 역전(Inversion of Control)
 // IoC 컨테이너가 스프링 빈을 관리한다.(빈 생성, 의존성 주입)
 public class MemberService {
-    private final MemoryMemberRepository memoryMemberRepository;
+    private final MemberRepository memberRepository;
     @Autowired
     public MemberService(MemoryMemberRepository memoryMemberRepository) {
-        this.memoryMemberRepository = memoryMemberRepository;
+        this.memberRepository = memoryMemberRepository;
     }
 
     static int total_id;
     public List<MemberResponseDto> members(){
-        List<Member> members = memoryMemberRepository.members();
+        List<Member> members = memberRepository.members();
         List<MemberResponseDto> memberResponseDtos = new ArrayList<>();
         for(Member member : members){
-            MemberResponseDto memberResponseDto = new MemberResponseDto(member.getId(), member.getName(), member.getEmail(), member.getPassword());
+            MemberResponseDto memberResponseDto = new MemberResponseDto();
+            memberResponseDto.setId(member.getId());
+            memberResponseDto.setName(member.getName());
+            memberResponseDto.setEmail(member.getEmail());
+            memberResponseDto.setPassword(member.getPassword());
+            memberResponseDto.setCreate_time(member.getCreate_time());
             memberResponseDtos.add(memberResponseDto);
         }
         return memberResponseDtos;
@@ -40,14 +45,19 @@ public class MemberService {
         LocalDateTime now = LocalDateTime.now();
         ++total_id;
         Member member = new Member(total_id, memberRequestDto.getName(), memberRequestDto.getEmail(), memberRequestDto.getPassword(), now);
-        memoryMemberRepository.memberCreate(member);
+        memberRepository.memberCreate(member);
     }
 
     public MemberResponseDto findById(int id){
         //Member 객체를 MemberRequestDto로 변환
-        Member member = memoryMemberRepository.findById(id);
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member.getId(), member.getName(), member.getEmail(), member.getPassword());
+        //생성자 초기화보다는 유연성이 좋다.
+        Member member = memberRepository.findById(id);
+        MemberResponseDto memberResponseDto = new MemberResponseDto();
+        memberResponseDto.setId(member.getId());
+        memberResponseDto.setName(member.getName());
+        memberResponseDto.setEmail(member.getEmail());
+        memberResponseDto.setPassword(member.getPassword());
+        memberResponseDto.setCreate_time(member.getCreate_time());
         return memberResponseDto;
     }
-
 }

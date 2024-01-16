@@ -3,6 +3,7 @@ package com.encore.basic.controller;
 import com.encore.basic.domain.Hello;
 import com.encore.basic.domain.Member;
 import com.encore.basic.domain.MemberRequestDto;
+import com.encore.basic.domain.MemberResponseDto;
 import com.encore.basic.service.MemberService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +63,8 @@ public class MemberController {
 
     @GetMapping("member/find")
     public String findMember(@RequestParam("id") int id, Model model){
-        model.addAttribute("member", memberService.findById(id));
+        MemberResponseDto memberResponseDto = memberService.findById(id);
+        model.addAttribute("member", memberResponseDto);
         return "member/member-find-screen";
     }
 }
