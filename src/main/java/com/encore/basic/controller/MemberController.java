@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.NoSuchElementException;
 
 @Controller // 내부 @Component를 통해 "스프링 빈"으로 등록
@@ -70,7 +71,7 @@ public class MemberController {
             MemberResponseDto memberResponseDto = memberService.findById(id);
             model.addAttribute("member", memberResponseDto);
             return "member/member-find-screen";
-        } catch (NoSuchElementException e) {
+        } catch (EntityNotFoundException e) {
             return "404-error-page";
         }
     }

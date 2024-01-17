@@ -5,9 +5,11 @@ import com.encore.basic.domain.MemberRequestDto;
 import com.encore.basic.domain.MemberResponseDto;
 import com.encore.basic.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.proxy.EntityNotFoundDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +46,14 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public MemberResponseDto findById(int id) throws NoSuchElementException { // Optional, 예외처리 디테일 챙기기
-        //Member 객체를 MemberRequestDto로 변환
+    public MemberResponseDto findById(int id) throws EntityNotFoundException { // Optional, 예외처리 디테일 챙기기
+        //Member 객체를 MemberResponseDto로 변환
         //생성자 초기화보다는 유연성이 좋다.
         // Member member = memberRepository.findById(id).orElseThrow(()-> new NoSuchElementException());
         // Optional로 객체가 반환되지 않으면(비어있으면) 예외 터져서 아래 코드로 내려가지 않음.
         //개발자 간 NoSuchElementException이 발생하면 어떻게 처리할지 다루려고 적는 것이지,
         //에러만 적는다고 페이지 상으로 404 에러가 나가지는 않음! ResponseEntity로 잘 처리하자!
-        Member member = memberRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        Member member = memberRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         MemberResponseDto memberResponseDto = new MemberResponseDto();
         memberResponseDto.setId(member.getId());
         memberResponseDto.setName(member.getName());
