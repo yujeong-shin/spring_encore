@@ -53,9 +53,15 @@ public class MemberController {
 
     @PostMapping("members/create")
     public String create(MemberRequestDto memberRequestDto){
-        System.out.println(memberRequestDto);
-        memberService.createMember(memberRequestDto);
-        return "redirect:/members"; //url 리다이렉트
+        // Service에서 예외가 발생하면 Service는 @Transactional 어노테이션을 통해 DB rollback ⭐
+        // Controller는 사용자에게 적절한 화면 return ⭐
+        try{
+            System.out.println(memberRequestDto);
+            memberService.createMember(memberRequestDto);
+            return "redirect:/members"; //url 리다이렉트
+        }catch (IllegalArgumentException e){
+            return "404-error-page"; //404 에러 페이지
+        }
     }
 
     // Home 생성

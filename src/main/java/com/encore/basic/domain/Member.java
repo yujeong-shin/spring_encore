@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,19 +21,21 @@ public class Member {
     @Id //pk 설정
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; //Repository에서 set하기 위해 어쩔 수 없이 붙임 (DB와 싱크를 맞추기 위해 필요함)
-    // String은ㅇ DB의 varchar로 자동 변환
+    // String은 DB의 varchar로 자동 변환
     private String name;
     @Column(nullable = false, length = 50)
     private String email;
     private String password;
     @Setter
     @Column(name = "created_time") //name 옵션을 통해 DB의 컬럼명 별도 지정 가능
-    //DB의 컬럼명은 created_time, 스프링에서 Member 객체 조립할 때 create_time으로 알아서 넣어줌
+    @CreationTimestamp
     private LocalDateTime create_time;
+    @UpdateTimestamp
+    private LocalDateTime updated_time;
     public Member(String name, String email, String password){
         this.name = name;
         this.email = email;
         this.password = password;
-        this.create_time = LocalDateTime.now();
+        //this.create_time = LocalDateTime.now();
     }
 }

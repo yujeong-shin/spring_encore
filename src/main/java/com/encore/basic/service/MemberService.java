@@ -10,21 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-@Service // 싱글톤 컴포넌트로 생성 -> 내부 @Component를 통해 "스프링 빈"으로 등록
+@Service
+// 싱글톤 컴포넌트로 생성 -> 내부 @Component를 통해 "스프링 빈"으로 등록
 // 스프링 빈이랑, 스프링이 생성하고 관리하는 객체를 의미
 // 제어의 역전(Inversion of Control)
 // IoC 컨테이너가 스프링 빈을 관리한다.(빈 생성, 의존성 주입)
 public class MemberService {
     private final MemberRepository memberRepository;
     @Autowired
-    public MemberService(MybatisMemberRepository mybatisMemberRepository) {
-        this.memberRepository = mybatisMemberRepository;
+    public MemberService(SpringDataJpaMemberRepository springDataJpaMemberRepository) {
+        this.memberRepository = springDataJpaMemberRepository;
     }
     public List<MemberResponseDto> findAll(){
         List<Member> members = memberRepository.findAll();
@@ -40,13 +42,29 @@ public class MemberService {
         return memberResponseDtos;
     }
 
+    //Transactional 어노테이션을 클래스 단위로 붙이면 모든 메서드에 각각 Transactional 적용
+    //Transactional을 적용하면 한 메서드 단위로 트랜잭션 지정
+    @Transactional //⭐⭐
     // 사용자의 입력 값이 담긴 DTO를 통해, 실제 시스템에서 사용되는 정보를 조합해 Member 객체로 변환 후 저장
-    public void createMember(MemberRequestDto memberRequestDto){
+    public void createMember(MemberRequestDto memberRequestDto) throws IllegalArgumentException {
+//        try{
+//            Member member = new Member(memberRequestDto.getName(), memberRequestDto.getEmail(), memberRequestDto.getPassword());
+//            memberRepository.save(member);
+//        }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        //Transaction 테스트
         Member member = new Member(memberRequestDto.getName(), memberRequestDto.getEmail(), memberRequestDto.getPassword());
         memberRepository.save(member);
+        if(member.getName().equals("kim")){
+            throw new IllegalArgumentException();
+        }
     }
 
-    public MemberResponseDto findById(int id) throws EntityNotFoundException { // Optional, 예외처리 디테일 챙기기
+    // Optional, 예외처리 디테일 챙기기
+    //보통 서비스에서는 예외를 컨트롤러로 던져 컨트롤러에서 처리한다.
+    public MemberResponseDto findById(int id) throws EntityNotFoundException {
         //Member 객체를 MemberResponseDto로 변환
         //생성자 초기화보다는 유연성이 좋다.
         // Member member = memberRepository.findById(id).orElseThrow(()-> new NoSuchElementException());

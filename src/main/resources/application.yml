@@ -55,3 +55,6 @@ spring:
       ddl-auto: create
     #jpa가 자동으로 쿼리를 실행할 때, 쿼리가 console창에 보여지도록
     show-sql: true
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml
