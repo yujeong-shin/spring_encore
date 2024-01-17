@@ -22,9 +22,11 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; //Repository에서 set하기 위해 어쩔 수 없이 붙임 (DB와 싱크를 맞추기 위해 필요함)
     // String은 DB의 varchar로 자동 변환
+    @Setter
     private String name;
     @Column(nullable = false, length = 50)
     private String email;
+    @Setter
     private String password;
     @Setter
     @Column(name = "created_time") //name 옵션을 통해 DB의 컬럼명 별도 지정 가능

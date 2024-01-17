@@ -47,19 +47,14 @@ public class MemberService {
     @Transactional //⭐⭐
     // 사용자의 입력 값이 담긴 DTO를 통해, 실제 시스템에서 사용되는 정보를 조합해 Member 객체로 변환 후 저장
     public void createMember(MemberRequestDto memberRequestDto) throws IllegalArgumentException {
-//        try{
-//            Member member = new Member(memberRequestDto.getName(), memberRequestDto.getEmail(), memberRequestDto.getPassword());
-//            memberRepository.save(member);
-//        }catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        //Transaction 테스트
         Member member = new Member(memberRequestDto.getName(), memberRequestDto.getEmail(), memberRequestDto.getPassword());
         memberRepository.save(member);
-        if(member.getName().equals("kim")){
-            throw new IllegalArgumentException();
-        }
+//        //Transaction 테스트
+//        Member member = new Member(memberRequestDto.getName(), memberRequestDto.getEmail(), memberRequestDto.getPassword());
+//        memberRepository.save(member);
+//        if(member.getName().equals("kim")){
+//            throw new IllegalArgumentException();
+//        }
     }
 
     // Optional, 예외처리 디테일 챙기기
@@ -79,5 +74,18 @@ public class MemberService {
         memberResponseDto.setPassword(member.getPassword());
         memberResponseDto.setCreate_time(member.getCreate_time());
         return memberResponseDto;
+    }
+
+    public void deleteMember(int id) throws EntityNotFoundException {
+        Member member = memberRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        memberRepository.delete(member);
+    }
+
+    public void updateMember(MemberRequestDto memberRequestDto) throws EntityNotFoundException {
+        Member member = memberRepository.findById(memberRequestDto.getId()).orElseThrow(EntityNotFoundException::new);
+        member.setName(memberRequestDto.getName());
+        member.setPassword(memberRequestDto.getPassword());
+        //member.updateMember(memberRequestDto.getName(), memberRequestDto.getPassword());
+        memberRepository.save(member);
     }
 }

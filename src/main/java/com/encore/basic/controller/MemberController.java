@@ -53,15 +53,18 @@ public class MemberController {
 
     @PostMapping("members/create")
     public String create(MemberRequestDto memberRequestDto){
-        // Service에서 예외가 발생하면 Service는 @Transactional 어노테이션을 통해 DB rollback ⭐
-        // Controller는 사용자에게 적절한 화면 return ⭐
-        try{
-            System.out.println(memberRequestDto);
-            memberService.createMember(memberRequestDto);
-            return "redirect:/members"; //url 리다이렉트
-        }catch (IllegalArgumentException e){
-            return "404-error-page"; //404 에러 페이지
-        }
+//        //트랜잭션 및 예외처리 테스트
+//        // Service에서 예외가 발생하면 Service는 @Transactional 어노테이션을 통해 DB rollback ⭐
+//        // Controller는 사용자에게 적절한 화면 return ⭐
+//        try{
+//            System.out.println(memberRequestDto);
+//            memberService.createMember(memberRequestDto);
+//            return "redirect:/members"; //url 리다이렉트
+//        }catch (IllegalArgumentException e){
+//            return "404-error-page"; //404 에러 페이지
+//        }
+        memberService.createMember(memberRequestDto);
+        return "redirect:/members"; //url 리다이렉트
     }
 
     // Home 생성
@@ -78,6 +81,29 @@ public class MemberController {
             model.addAttribute("member", memberResponseDto);
             return "member/member-find-screen";
         } catch (EntityNotFoundException e) {
+            return "404-error-page";
+        }
+    }
+
+    @GetMapping("member/delete")
+    public String deleteMember(@RequestParam("id") int id){
+        try{
+            memberService.deleteMember(id);
+            return "redirect:/members";
+        } catch (EntityNotFoundException e){
+            return "404-error-page";
+        }
+    }
+
+    @PostMapping("member/update")
+    public String updateMember(MemberRequestDto memberRequestDto, Model model){
+        try{
+            memberService.updateMember(memberRequestDto);
+
+            model.addAttribute("member", memberRequestDto);
+            return "redirect:/member/find?id=" + memberRequestDto.getId();
+        }
+        catch (EntityNotFoundException e){
             return "404-error-page";
         }
     }

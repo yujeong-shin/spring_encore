@@ -4,9 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <title>회원 상세조회</title>
+    <style>
+        #update-form{
+            display: none;
+        }
+    </style>
+    <script>
+        function showUpdateForm(){
+            document.getElementById("update-form").style.display = 'block';
+        }
+    </script>
 </head>
 <body>
 <div th:replace="member/header :: headerFragment"></div>
+
 <table>
     <tr>
         <th>이름</th>
@@ -21,5 +32,15 @@
         <td th:text="${member.create_time}"></td>
     </tr>
 </table>
+<button onclick="showUpdateForm()">수정</button><a th:href="@{/member/delete(id=${member.id})}"><button>삭제</button></a>
+<div id="update-form">
+    <form action="/member/update" method="POST">
+        <p><label>id</label><input type="text" name="id" th:value="${member.id}" readonly></p>
+        <p><label>이름</label><input type="text" name="name" th:value="${member.name}"></p>
+        <p><label>email</label><input type="text" name="email" th:value="${member.email}" readonly></p>
+        <p><label>password</label><input type="password" name="password" th:value="${member.password}"></p>
+        <input type="submit" value="수정완료">
+    </form>
+</div>
 </body>
 </html>
