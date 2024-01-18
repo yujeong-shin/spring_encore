@@ -37,6 +37,7 @@ public class MemberService {
             memberResponseDto.setName(member.getName());
             memberResponseDto.setEmail(member.getEmail());
             memberResponseDto.setPassword(member.getPassword());
+            memberResponseDto.setCreate_time(member.getCreate_time());
             memberResponseDtos.add(memberResponseDto);
         }
         return memberResponseDtos;
