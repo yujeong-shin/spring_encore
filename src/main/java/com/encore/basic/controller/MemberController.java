@@ -81,6 +81,7 @@ public class MemberController {
             model.addAttribute("member", memberResponseDto);
             return "member/member-find-screen";
         } catch (EntityNotFoundException e) {
+            //에러를 catch해서 비정상적인 요청시에도 상태코드 200으로 출력됨.
             return "404-error-page";
         }
     }
