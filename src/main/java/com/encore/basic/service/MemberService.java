@@ -83,9 +83,10 @@ public class MemberService {
 
     public void updateMember(MemberRequestDto memberRequestDto) throws EntityNotFoundException {
         Member member = memberRepository.findById(memberRequestDto.getId()).orElseThrow(EntityNotFoundException::new);
-        member.setName(memberRequestDto.getName());
-        member.setPassword(memberRequestDto.getPassword());
-        //member.updateMember(memberRequestDto.getName(), memberRequestDto.getPassword());
+        //set 방식보다는 update 함수를 생성하는 방식을 주로 사용함
+//        member.setName(memberRequestDto.getName());
+//        member.setPassword(memberRequestDto.getPassword());
+        member.updateMember(memberRequestDto.getName(), memberRequestDto.getPassword());
         memberRepository.save(member);
     }
 }

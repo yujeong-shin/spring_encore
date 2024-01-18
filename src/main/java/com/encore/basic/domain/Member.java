@@ -40,4 +40,8 @@ public class Member {
         this.password = password;
         //this.create_time = LocalDateTime.now();
     }
+    public void updateMember(String name, String password){
+        this.name = name;
+        this.password = password;
+    }
 }
