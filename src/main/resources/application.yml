@@ -35,6 +35,12 @@
 
 
 spring:
+#  # Controller와 jsp 사용 시에 경로와 확장자 설정
+#  # 기본 설정이 타임리프이므로, build.gradle에서 타임리프 의존성 제거해야 jsp 사용 가능
+#  mvc:
+#    view:
+#      prefix: /WEB-INF/views/
+#      suffix: .jsp
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/basic

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller //http 통신을 쉽게 하게 해주는 어노테이션
@@ -127,5 +129,33 @@ public class HelloController {
     public String jsonPostHandle3(@RequestBody Hello hello){
         System.out.println(hello);
         return "ok";
+    }
+
+    @PostMapping("httpservlet")
+    @ResponseBody
+    public String httpServletTest(HttpServletRequest req){
+        //HttpServletRequest 객체에서 header 정보 추출
+        System.out.println(req.getContentType());
+        System.out.println(req.getMethod()); //get, post, put, delete
+        //session : 로그인(auth) 정보에서 필요한 정보값을 추출할 때 많이 사용
+        System.out.println(req.getSession()); //⭐
+        System.out.println(req.getHeader("Accept"));
+
+        //HttpServletRequest 객체에서 body 정보 추출
+        System.out.println(req.getParameter("test1"));
+        System.out.println(req.getParameter("test2"));
+        //req.getReader()를 통해 BufferedReader로 받아 직접 파싱
+        return "OK";
+    }
+
+    //json 데이터 처리
+    // Controller와 JSP의 조합
+    @GetMapping("/hello-servlet-jsp-get")
+    public String helloServletJspGet(Model model){
+        model.addAttribute("myData", "jsp test data");
+        return "hello-jsp";
+        // 타임리프 의존성 때문에 타임리프를 우선적으로 찾는다.
+        // 타임리프 의존성 제거해주면 application.yml에서 JSP 설정 코드를 가져와
+        // /WEB-INF/views/에 있는 hello-jsp.jsp를 찾아오게 됨.
     }
 }
